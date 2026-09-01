@@ -1,27 +1,26 @@
 <!doctype html>
+<!-- impeccable-disable overused-font, flat-type-hierarchy -- Native Figma plugin typography uses Inter and a compact 10/11/12px control hierarchy. -->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BM FontRemix</title>
+    <title>BM FontMixer</title>
     <style>
       :root {
         color-scheme: dark;
-        --text: #f7f7f7;
-        --muted: #a9a9a9;
-        --border: #464646;
-        --focus: #a9b9f3;
-        --primary: #a9b9f3;
-        --apply-bg: #ff5b35;
-        --apply-hover: #ff704f;
-        --apply-text: #161616;
-        --error: #ff735f;
-        --success: #56d6a0;
         --bg: #1f1f1f;
-        --field-bg: #2b2b2b;
-        --field-hover: #333333;
-        --footer-bg: #242424;
-        --divider: #3d3d3d;
+        --surface: #242424;
+        --field: #2b2b2b;
+        --field-hover: #343434;
+        --border: #404040;
+        --text: #f5f5f5;
+        --muted: #a6a6a6;
+        --focus: #a9b9f3;
+        --accent: #a9b9f3;
+        --apply: #ff5b35;
+        --apply-hover: #ff704f;
+        --error: #ff806c;
+        --success: #65dca9;
       }
 
       * {
@@ -32,177 +31,107 @@
       body {
         min-height: 0;
         margin: 0;
-        padding: 0;
+        overflow: hidden;
         background: var(--bg);
         color: var(--text);
         font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
         font-size: 12px;
         line-height: 1.4;
-        overflow: visible;
       }
 
-      ::selection {
-        background: rgba(169, 185, 243, 0.34);
-        color: var(--text);
-      }
-
-      .app {
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        overflow: visible;
-      }
-
-      .content {
-        flex: 0 0 auto;
-        overflow: visible;
-        padding: 16px 14px 40px;
-        scrollbar-color: var(--border) transparent;
-        scrollbar-width: thin;
-      }
-
-      .content::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      .content::-webkit-scrollbar-thumb {
-        border: 2px solid transparent;
-        border-radius: 99px;
-        background: var(--border);
-        background-clip: padding-box;
-      }
-
-      .section {
-        margin-bottom: 18px;
-      }
-
-      .label {
-        display: block;
-        margin-bottom: 6px;
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 500;
-      }
-
-      input[type="text"],
-      input[type="number"],
-      select,
-      textarea,
-      button {
-        width: 100%;
+      button,
+      input {
         min-width: 0;
-        max-width: 100%;
         font: inherit;
       }
 
-      input[type="text"],
-      input[type="number"],
-      select,
-      textarea {
-        min-height: 32px;
-        padding: 7px 9px;
-        border: 1px solid transparent;
-        border-radius: 7px;
-        background: var(--field-bg);
-        color: var(--text);
-        font-variant-numeric: tabular-nums;
-        transition:
-          background 120ms ease,
-          border-color 120ms ease;
-      }
-
-      textarea {
-        resize: vertical;
-      }
-
       button {
-        min-height: 32px;
         border: 1px solid transparent;
-        background: var(--field-bg);
-        color: var(--text);
         border-radius: 7px;
-        padding: 7px 9px;
+        background: var(--field);
+        color: var(--text);
         cursor: pointer;
-        transition:
-          background 120ms ease,
-          border-color 120ms ease,
-          color 120ms ease;
+        transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
       }
 
-      button:hover:not(:disabled),
-      input[type="text"]:hover,
-      input[type="number"]:hover,
-      select:hover,
-      textarea:hover {
+      button:hover:not(:disabled) {
         background: var(--field-hover);
       }
 
       button:focus-visible,
-      input:focus-visible,
-      select:focus-visible,
-      textarea:focus-visible {
+      input:focus-visible {
         border-color: var(--focus);
-        outline: 2px solid rgba(169, 185, 243, 0.26);
+        outline: 2px solid rgba(169, 185, 243, 0.25);
         outline-offset: 1px;
       }
 
-      button.primary {
-        background: var(--apply-bg);
-        color: var(--apply-text);
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.35;
+      }
+
+      .app {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content {
+        padding: 16px 14px 40px;
+      }
+
+      .section + .section {
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+      }
+
+      .section-heading {
+        margin: 0 0 9px;
+        font-size: 12px;
         font-weight: 650;
       }
 
-      button.primary:hover:not(:disabled) {
-        background: var(--apply-hover);
-      }
-
-      button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-
-      input::placeholder,
-      textarea::placeholder {
-        color: #929292;
-      }
-
-      .row {
+      .weight-control {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 8px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 2px;
+        padding: 2px;
+        border-radius: 9px;
+        background: #292929;
       }
 
-      .spacing-field {
-        display: flex;
-        min-width: 0;
-        flex-direction: column;
-        gap: 5px;
-      }
-
-      .spacing-field > label {
-        color: var(--muted);
-        font-size: 11px;
-      }
-
-      .unit-suffix {
-        position: absolute;
-        top: 50%;
-        right: 34px;
-        transform: translateY(-50%);
-        color: #8f8f8f;
+      .weight-button {
+        min-height: 34px;
+        padding: 6px 3px;
+        border-radius: 7px;
+        background: transparent;
         font-size: 10px;
-        line-height: 1;
-        pointer-events: none;
+        font-weight: 550;
+        letter-spacing: -0.01em;
       }
 
-      .size-controls-grid {
+      .weight-button[aria-checked="true"] {
+        background: var(--accent);
+        color: #171717;
+        font-weight: 700;
+      }
+
+      .weight-button[aria-checked="true"]:hover:not(:disabled) {
+        background: #bdc8f4;
+      }
+
+      .size-grid {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         gap: 10px;
       }
 
-      .number-control {
-        min-width: 0;
+      .field-label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 500;
       }
 
       .number-combobox {
@@ -211,8 +140,38 @@
         min-width: 0;
       }
 
-      .number-combobox input {
-        padding-right: 55px;
+      .number-input {
+        width: 100%;
+        height: 34px;
+        padding: 7px 54px 7px 9px;
+        border: 1px solid transparent;
+        border-radius: 7px;
+        background: var(--field);
+        color: var(--text);
+        font-variant-numeric: tabular-nums;
+        transition: background 120ms ease, border-color 120ms ease;
+        appearance: textfield;
+      }
+
+      .number-input::-webkit-outer-spin-button,
+      .number-input::-webkit-inner-spin-button {
+        margin: 0;
+        appearance: none;
+      }
+
+      .number-input:hover {
+        background: var(--field-hover);
+      }
+
+      .unit {
+        position: absolute;
+        top: 50%;
+        right: 31px;
+        transform: translateY(-50%);
+        color: #909090;
+        font-size: 10px;
+        line-height: 1;
+        pointer-events: none;
       }
 
       .number-trigger {
@@ -220,58 +179,43 @@
         top: 0;
         right: 0;
         width: 28px;
-        min-width: 28px;
-        height: 32px;
-        min-height: 32px;
+        height: 34px;
         padding: 0;
         border-radius: 0 7px 7px 0;
         background: transparent;
         color: var(--muted);
       }
 
-      .number-trigger:hover:not(:disabled) {
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--text);
-      }
-
       .number-trigger svg {
         width: 12px;
         height: 12px;
-        transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 120ms ease;
       }
 
       .number-trigger[aria-expanded="true"] svg {
         transform: rotate(180deg);
       }
 
-      .number-menu-layer {
-        position: fixed;
-        inset: 0;
-        z-index: 20;
-        pointer-events: none;
-      }
-
       .number-menu {
         position: fixed;
-        width: 128px;
-        max-height: 264px;
+        z-index: 50;
         overflow-y: auto;
         padding: 4px;
         border: 1px solid var(--border);
-        border-radius: 10px;
+        border-radius: 9px;
         background: #252525;
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
-        pointer-events: auto;
-        scrollbar-color: var(--border) transparent;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.46);
+        scrollbar-color: #555 transparent;
         scrollbar-width: thin;
       }
 
       .number-option {
         display: grid;
+        width: 100%;
+        min-height: 28px;
         grid-template-columns: 14px minmax(0, 1fr);
         align-items: center;
-        gap: 6px;
-        min-height: 28px;
+        gap: 5px;
         padding: 5px 7px;
         border-radius: 6px;
         background: transparent;
@@ -284,1969 +228,291 @@
         background: var(--field-hover);
       }
 
-      .option-check {
-        width: 12px;
-        height: 12px;
+      .check {
         opacity: 0;
       }
 
-      .number-option[aria-selected="true"] .option-check {
+      .number-option[aria-selected="true"] .check {
         opacity: 1;
       }
 
-      .number-menu-separator {
-        height: 1px;
-        margin: 4px 3px;
-        background: var(--divider);
+      .footer {
+        padding: 10px 14px 12px;
+        border-top: 1px solid var(--border);
+        background: var(--surface);
       }
 
-      .letter-spacing-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 6px;
-      }
-
-      .letter-spacing-grid input {
-        height: 30px;
-        min-height: 30px;
-        padding: 7px 5px 7px 25px;
-        border: 0;
-        background: transparent;
-        text-align: left;
-      }
-
-      .letter-spacing-grid input:hover,
-      .letter-spacing-grid input:focus-visible {
-        border-color: transparent;
-        background: transparent;
-        outline: 0;
-      }
-
-      .spacing-input-wrap {
-        position: relative;
-        display: flex;
-        min-width: 0;
-        min-height: 32px;
-        align-items: center;
-        border: 1px solid transparent;
-        border-radius: 7px;
-        background: var(--field-bg);
-        transition:
-          background 120ms ease,
-          border-color 120ms ease;
-      }
-
-      .spacing-input-wrap:hover {
-        background: var(--field-hover);
-      }
-
-      .spacing-input-wrap:focus-within {
-        border-color: var(--focus);
-        outline: 2px solid rgba(169, 185, 243, 0.26);
-        outline-offset: 1px;
-      }
-
-      .spacing-scrubber {
-        position: absolute;
-        z-index: 1;
-        left: 3px;
-        width: 20px;
-        min-width: 20px;
-        height: 28px;
-        min-height: 28px;
-        padding: 0;
-        border: 0;
-        border-radius: 5px;
-        background: transparent;
-        color: #9b9b9b;
-        cursor: ew-resize;
-        touch-action: none;
-        user-select: none;
-      }
-
-      .spacing-scrubber:hover:not(:disabled),
-      .spacing-scrubber:focus-visible {
-        border-color: transparent;
-        background: rgba(255, 255, 255, 0.06);
-        color: var(--text);
-        outline: 0;
-      }
-
-      .spacing-scrubber svg {
-        width: 14px;
-        height: 14px;
-        pointer-events: none;
-      }
-
-      body.is-scrubbing,
-      body.is-scrubbing * {
-        cursor: ew-resize !important;
-        user-select: none !important;
-      }
-
-      .preset-picker-row {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) 32px 32px 32px;
-        gap: 6px;
-        align-items: center;
-      }
-
-      .icon-button {
-        width: 32px;
-        min-width: 32px;
-        height: 32px;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .icon-button svg {
-        width: 16px;
-        height: 16px;
-      }
-
-      .icon-button.active {
-        border-color: var(--primary);
-        color: var(--primary);
-        background: rgba(169, 185, 243, 0.1);
-      }
-
-      .row-3 {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 6px;
-      }
-
-      .inline {
-        margin-top: 8px;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      .font-results {
-        margin-top: 5px;
-        border: 1px solid var(--border);
-        border-radius: 7px;
-        max-height: 150px;
-        overflow: auto;
-        background: var(--field-bg);
-      }
-
-      .font-item {
-        width: 100%;
-        text-align: left;
-        border: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        border-radius: 0;
-        background: var(--field-bg);
-        padding: 6px;
-      }
-
-      .font-item:last-child {
-        border-bottom: 0;
-      }
-
-      .font-item:hover {
-        background: var(--field-hover);
-      }
-
-      #status {
+      .status {
         min-height: 34px;
         max-height: 34px;
-        color: #cfcfcf;
-        line-height: 1.35;
+        margin-bottom: 6px;
         overflow: hidden;
+        color: #d0d0d0;
+        line-height: 1.35;
       }
 
-      #status.error {
+      .status.error {
         color: var(--error);
       }
 
-      #status.success {
+      .status.success {
         color: var(--success);
       }
 
-      .footer-bar {
-        flex: 0 0 auto;
-        height: auto;
-        padding: 10px 14px 12px;
-        background: var(--footer-bg);
-        border-top: 1px solid var(--divider);
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-
-      .footer-bar button {
-        display: block;
+      .apply-button {
+        width: 100%;
         min-height: 44px;
+        background: var(--apply);
+        color: #171717;
+        font-weight: 700;
       }
 
-      .hint {
-        margin-top: 6px;
-        color: var(--muted);
-        font-size: 10px;
-        line-height: 1.35;
+      .apply-button:hover:not(:disabled) {
+        background: var(--apply-hover);
       }
-
-      .section-heading {
-        margin: 0;
-        color: var(--text);
-        font-size: 12px;
-        font-weight: 650;
-      }
-
-      .section-heading-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        margin-bottom: 8px;
-      }
-
-      .section-meta {
-        color: var(--muted);
-        font-size: 10px;
-        font-variant-numeric: tabular-nums;
-      }
-
-      .font-selection-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 10px;
-      }
-
-      .font-column {
-        min-width: 0;
-      }
-
-      .font-column select {
-        margin-top: 6px;
-      }
-
-      .section-divider {
-        padding-top: 18px;
-        border-top: 1px solid var(--divider);
-      }
-
-      .content > .section:last-child {
-        margin-bottom: 0;
-      }
-
     </style>
   </head>
   <body>
     <div id="app" class="app">
-      <div class="content">
-
-        <section class="section">
-          <label class="label" for="presetSelect">Presets</label>
-          <div class="preset-picker-row">
-            <select id="presetSelect"></select>
-            <button id="savePresetButton" type="button" class="icon-button" title="Save preset" aria-label="Save preset">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 4h11l3 3v13H5z"></path>
-                <path d="M8 4v6h8V4"></path>
-                <path d="M8 20v-6h8v6"></path>
-              </svg>
-            </button>
-            <button id="choosePresetFolderButton" type="button" class="icon-button" title="Reload saved presets" aria-label="Reload saved presets">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="8"></circle>
-                <circle cx="12" cy="12" r="2.25"></circle>
-              </svg>
-            </button>
-            <button id="exportPresetsButton" type="button" class="icon-button" title="Export presets as JSON" aria-label="Export custom presets as JSON">
-              <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                <path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"></path>
-              </svg>
-            </button>
-          </div>
-          <div id="presetFolderStatus" class="hint">Checking preset storage...</div>
-          <div id="savePresetInline" class="inline hidden">
-            <div class="row">
-              <input id="savePresetName" type="text" placeholder="Preset name" />
-              <div class="row">
-                <button id="savePresetConfirm" type="button">OK</button>
-                <button id="savePresetCancel" type="button">Cancel</button>
-              </div>
-            </div>
-          </div>
-          <div id="presetActions" class="row-3 inline hidden">
-            <button id="renamePresetButton" type="button">Rename</button>
-            <button id="overwritePresetButton" type="button">Overwrite</button>
-            <button id="deletePresetButton" type="button">Delete</button>
-          </div>
-          <div id="renamePresetInline" class="inline hidden">
-            <div class="row">
-              <input id="renamePresetName" type="text" placeholder="New preset name" />
-              <div class="row">
-                <button id="renamePresetConfirm" type="button">OK</button>
-                <button id="renamePresetCancel" type="button">Cancel</button>
-              </div>
-            </div>
+      <main class="content">
+        <section class="section" aria-labelledby="weightHeading">
+          <h1 id="weightHeading" class="section-heading">Weight</h1>
+          <div id="weightControl" class="weight-control" role="radiogroup" aria-label="Font weight pairing">
+            <button class="weight-button" type="button" role="radio" data-weight="regular" aria-checked="true" tabindex="0">Regular</button>
+            <button class="weight-button" type="button" role="radio" data-weight="semibold" aria-checked="false" tabindex="-1">SemiBold</button>
+            <button class="weight-button" type="button" role="radio" data-weight="bold" aria-checked="false" tabindex="-1">Bold</button>
+            <button class="weight-button" type="button" role="radio" data-weight="extrabold" aria-checked="false" tabindex="-1">ExtraBold</button>
           </div>
         </section>
 
         <section class="section">
-          <div class="section-heading-row">
-            <div class="section-heading">Font selection</div>
-            <button id="extractButton" type="button" class="icon-button" title="Extract from selected text" aria-label="Extract settings from selected text">
-              <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
-                <path d="M224,67.3a35.79,35.79,0,0,0-11.26-25.66c-14-13.28-36.72-12.78-50.62,1.13L142.8,62.2a24,24,0,0,0-33.14.77l-9,9a16,16,0,0,0,0,22.64l2,2.06-51,51a39.75,39.75,0,0,0-10.53,38l-8,18.41A13.68,13.68,0,0,0,36,219.3a15.92,15.92,0,0,0,17.71,3.35L71.23,215a39.89,39.89,0,0,0,37.06-10.75l51-51,2.06,2.06a16,16,0,0,0,22.62,0l9-9a24,24,0,0,0,.74-33.18l19.75-19.87A35.75,35.75,0,0,0,224,67.3ZM97,193a24,24,0,0,1-24,6,8,8,0,0,0-5.55.31l-18.1,7.91L57,189.41a8,8,0,0,0,.25-5.75A23.88,23.88,0,0,1,63,159l51-51,33.94,34ZM202.13,82l-25.37,25.52a8,8,0,0,0,0,11.3l4.89,4.89a8,8,0,0,1,0,11.32l-9,9L112,83.26l9-9a8,8,0,0,1,11.31,0l4.89,4.89a8,8,0,0,0,11.33,0l24.94-25.09c7.81-7.82,20.5-8.18,28.29-.81a20,20,0,0,1,.39,28.7Z"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="font-selection-grid">
-            <div class="font-column">
-              <label class="label" for="fontASearch">Latin Font</label>
-              <input id="fontASearch" type="text" placeholder="Search font family" />
-              <div id="fontAResults" class="font-results hidden"></div>
-              <select id="fontAStyle" class="inline"></select>
-            </div>
-            <div class="font-column">
-              <label class="label" for="fontBSearch">Japanese Font</label>
-              <input id="fontBSearch" type="text" placeholder="Search font family" />
-              <div id="fontBResults" class="font-results hidden"></div>
-              <select id="fontBStyle" class="inline"></select>
-            </div>
-          </div>
-        </section>
-
-        <section class="section section-divider">
-          <div class="size-controls-grid">
-            <div class="number-control">
-              <label class="label" for="fontSize">Font size</label>
+          <div class="size-grid">
+            <div>
+              <label class="field-label" for="fontSizeInput">Font size</label>
               <div class="number-combobox">
-                <input
-                  id="fontSize"
-                  type="text"
-                  value="16"
-                  inputmode="decimal"
-                  autocomplete="off"
-                  role="combobox"
-                  aria-autocomplete="none"
-                  aria-label="Font size in pixels"
-                  aria-expanded="false"
-                  aria-controls="fontSizeMenu"
-                />
-                <span class="unit-suffix">px</span>
-                <button
-                  id="fontSizeTrigger"
-                  type="button"
-                  class="number-trigger"
-                  aria-label="Open font size presets"
-                  aria-expanded="false"
-                  aria-controls="fontSizeMenu"
-                  tabindex="-1"
-                >
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-                    <path d="m4 6 4 4 4-4"></path>
-                  </svg>
+                <input id="fontSizeInput" class="number-input" type="number" value="40" min="1" max="420" step="1" inputmode="decimal" />
+                <span class="unit">px</span>
+                <button id="fontSizeTrigger" class="number-trigger" type="button" aria-label="Choose font size" aria-haspopup="listbox" aria-expanded="false">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m4.5 6 3.5 3.5L11.5 6" /></svg>
                 </button>
               </div>
             </div>
-
-            <div class="number-control">
-              <label class="label" for="sizeRatioField">Size difference</label>
+            <div>
+              <label class="field-label" for="sizeRatioInput">Size difference</label>
               <div class="number-combobox">
-                <input
-                  id="sizeRatioField"
-                  type="text"
-                  value="0"
-                  inputmode="decimal"
-                  autocomplete="off"
-                  role="combobox"
-                  aria-autocomplete="none"
-                  aria-label="Size difference in percent"
-                  aria-expanded="false"
-                  aria-controls="sizeDifferenceMenu"
-                />
-                <span class="unit-suffix">%</span>
-                <button
-                  id="sizeDifferenceTrigger"
-                  type="button"
-                  class="number-trigger"
-                  aria-label="Open size difference presets"
-                  aria-expanded="false"
-                  aria-controls="sizeDifferenceMenu"
-                  tabindex="-1"
-                >
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-                    <path d="m4 6 4 4 4-4"></path>
-                  </svg>
+                <input id="sizeRatioInput" class="number-input" type="number" value="-5" min="-30" max="30" step="1" inputmode="decimal" />
+                <span class="unit">%</span>
+                <button id="sizeRatioTrigger" class="number-trigger" type="button" aria-label="Choose size difference" aria-haspopup="listbox" aria-expanded="false">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m4.5 6 3.5 3.5L11.5 6" /></svg>
                 </button>
               </div>
             </div>
           </div>
         </section>
+      </main>
 
-        <section class="section section-divider" aria-labelledby="letterSpacingHeading">
-          <div class="section-heading-row">
-            <div id="letterSpacingHeading" class="section-heading">Letter spacing</div>
-            <span class="section-meta">em units</span>
-          </div>
-          <div class="letter-spacing-grid">
-            <div class="spacing-field">
-              <label for="spacingLatin">Latin</label>
-              <div class="spacing-input-wrap">
-                <button class="spacing-scrubber" type="button" data-input="spacingLatin" aria-label="Drag to adjust Latin letter spacing" title="Drag left or right to adjust">
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M2.5 3v10M13.5 3v10M5.5 12l2.5-8 2.5 8M6.4 9.2h3.2"></path>
-                  </svg>
-                </button>
-                <input id="spacingLatin" type="text" value="0" inputmode="decimal" autocomplete="off" aria-label="Latin letter spacing in em" />
-              </div>
-            </div>
-            <div class="spacing-field">
-              <label for="spacingKanji">Kanji</label>
-              <div class="spacing-input-wrap">
-                <button class="spacing-scrubber" type="button" data-input="spacingKanji" aria-label="Drag to adjust Kanji letter spacing" title="Drag left or right to adjust">
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M2.5 3v10M13.5 3v10M5.5 12l2.5-8 2.5 8M6.4 9.2h3.2"></path>
-                  </svg>
-                </button>
-                <input id="spacingKanji" type="text" value="0" inputmode="decimal" autocomplete="off" aria-label="Kanji letter spacing in em" />
-              </div>
-            </div>
-            <div class="spacing-field">
-              <label for="spacingHiragana">Hiragana</label>
-              <div class="spacing-input-wrap">
-                <button class="spacing-scrubber" type="button" data-input="spacingHiragana" aria-label="Drag to adjust Hiragana letter spacing" title="Drag left or right to adjust">
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M2.5 3v10M13.5 3v10M5.5 12l2.5-8 2.5 8M6.4 9.2h3.2"></path>
-                  </svg>
-                </button>
-                <input id="spacingHiragana" type="text" value="0" inputmode="decimal" autocomplete="off" aria-label="Hiragana letter spacing in em" />
-              </div>
-            </div>
-            <div class="spacing-field">
-              <label for="spacingKatakana">Katakana</label>
-              <div class="spacing-input-wrap">
-                <button class="spacing-scrubber" type="button" data-input="spacingKatakana" aria-label="Drag to adjust Katakana letter spacing" title="Drag left or right to adjust">
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M2.5 3v10M13.5 3v10M5.5 12l2.5-8 2.5 8M6.4 9.2h3.2"></path>
-                  </svg>
-                </button>
-                <input id="spacingKatakana" type="text" value="0" inputmode="decimal" autocomplete="off" aria-label="Katakana letter spacing in em" />
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div class="footer-bar">
-        <div id="status" role="status" aria-live="polite"></div>
-        <button id="applyButton" type="button" class="primary">Apply</button>
-      </div>
-
-      <div id="numberMenuLayer" class="number-menu-layer" aria-hidden="true"></div>
+      <footer class="footer">
+        <div id="status" class="status" role="status" aria-live="polite">Loading required fonts…</div>
+        <button id="applyButton" class="apply-button" type="button" disabled>Apply</button>
+      </footer>
     </div>
 
     <script>
-      const LOCAL_PRESETS_KEY = "bm-font-remix.presets";
-      const LOCAL_SETTINGS_KEY = "bm-font-remix.settings";
-      const DEVICE_DB_NAME = "bm-font-remix";
-      const DEVICE_DB_STORE = "storage";
-      const DEVICE_STORAGE_PROBE_KEY = "__bm-font-remix-probe__";
-      const FONT_SIZE_PRESETS = [10, 11, 12, 13, 14, 15, 16, 20, 24, 32, 36, 40, 48, 64, 72, 96, 128];
-      const SIZE_DIFFERENCE_PRESETS = [-30, -20, -15, -10, -8, -5, 0, 5, 8, 10, 15, 20, 30];
-      const BUILTIN_PRESETS = [
-        {
-          id: "builtin-rs-regular-40",
-          name: "RS Regular 40",
-          builtIn: true,
-          settings: {
-            fontA: { family: "Space Grotesk", style: "Regular" },
-            fontB: { family: "M PLUS 1p", style: "Regular" },
-            fontSize: 40,
-            sizeRatio: -8,
-            letterSpacingUnit: "em",
-            letterSpacingLatin: -0.05,
-            letterSpacingKanji: 0,
-            letterSpacingHiragana: -0.02,
-            letterSpacingKatakana: -0.02
-          }
-        },
-        {
-          id: "builtin-rs-bold-40",
-          name: "RS Bold 40",
-          builtIn: true,
-          settings: {
-            fontA: { family: "Space Grotesk", style: "Bold" },
-            fontB: { family: "M PLUS 1p", style: "Bold" },
-            fontSize: 40,
-            sizeRatio: -8,
-            letterSpacingUnit: "em",
-            letterSpacingLatin: -0.05,
-            letterSpacingKanji: 0,
-            letterSpacingHiragana: -0.02,
-            letterSpacingKatakana: -0.02
-          }
-        },
-        {
-          id: "builtin-sp-bold-40",
-          name: "SP Bold 40",
-          builtIn: true,
-          settings: {
-            fontA: { family: "Spotify Mix", style: "Bold" },
-            fontB: { family: "Tazugane Gothic StdN", style: "Black" },
-            fontSize: 40,
-            sizeRatio: -10,
-            letterSpacingUnit: "em",
-            letterSpacingLatin: -0.01,
-            letterSpacingKanji: 0,
-            letterSpacingHiragana: -0.05,
-            letterSpacingKatakana: -0.05
-          }
-        },
-        {
-          id: "builtin-sp-regular-40",
-          name: "SP Regular 40",
-          builtIn: true,
-          settings: {
-            fontA: { family: "Spotify Mix", style: "Regular" },
-            fontB: { family: "Tazugane Gothic StdN", style: "Regular" },
-            fontSize: 40,
-            sizeRatio: -10,
-            letterSpacingUnit: "em",
-            letterSpacingLatin: -0.01,
-            letterSpacingKanji: 0,
-            letterSpacingHiragana: -0.05,
-            letterSpacingKatakana: -0.05
-          }
-        },
-        {
-          id: "builtin-sp-light-40",
-          name: "SP Light 40",
-          builtIn: true,
-          settings: {
-            fontA: { family: "Spotify Mix", style: "Light" },
-            fontB: { family: "Tazugane Gothic StdN", style: "Light" },
-            fontSize: 40,
-            sizeRatio: -10,
-            letterSpacingUnit: "em",
-            letterSpacingLatin: -0.01,
-            letterSpacingKanji: 0,
-            letterSpacingHiragana: -0.05,
-            letterSpacingKatakana: -0.05
-          }
-        },
-        {
-          id: "builtin-bm-regular-40",
-          name: "BM Regular 40",
-          builtIn: true,
-          settings: {
-            fontA: { family: "BM Duplet DSP", style: "Regular" },
-            fontB: { family: "FOT-NewCezanne ProN", style: "M" },
-            fontSize: 40,
-            sizeRatio: -8,
-            letterSpacingUnit: "em",
-            letterSpacingLatin: 0.03,
-            letterSpacingKanji: 0.02,
-            letterSpacingHiragana: 0.03,
-            letterSpacingKatakana: 0.03
-          }
-        },
-        {
-          id: "builtin-bm-bold-40",
-          name: "BM Bold 40",
-          builtIn: true,
-          settings: {
-            fontA: { family: "BM Duplet DSP", style: "Bold" },
-            fontB: { family: "FOT-NewCezanne ProN", style: "B" },
-            fontSize: 40,
-            sizeRatio: -8,
-            letterSpacingUnit: "em",
-            letterSpacingLatin: 0.03,
-            letterSpacingKanji: 0.02,
-            letterSpacingHiragana: 0.03,
-            letterSpacingKatakana: 0.03
-          }
-        }
-      ];
+      const FONT_SIZE_PRESETS = [10, 11, 12, 13, 14, 15, 16, 20, 24, 32, 36, 40, 48, 64, 72, 96];
+      const SIZE_DIFFERENCE_PRESETS = [-30, -25, -20, -15, -10, -8, -5, 0, 5, 10, 15, 20, 25, 30];
+      const DEFAULTS = { weight: "regular", fontSize: 40, sizeRatio: -5 };
+      const state = { weights: [], selectedWeight: DEFAULTS.weight, openMenu: null };
 
-      const state = {
-        fonts: [],
-        presets: [],
-        selectedPresetId: "",
-        fontA: { family: "", style: "Regular" },
-        fontB: { family: "", style: "Regular" },
-        presetPersistence: "unknown"
-      };
-
-      function el(id) {
-        return document.getElementById(id);
-      }
+      const app = document.getElementById("app");
+      const status = document.getElementById("status");
+      const applyButton = document.getElementById("applyButton");
+      const weightButtons = Array.from(document.querySelectorAll(".weight-button"));
+      const fontSizeInput = document.getElementById("fontSizeInput");
+      const sizeRatioInput = document.getElementById("sizeRatioInput");
 
       function post(message) {
         parent.postMessage({ pluginMessage: message }, "*");
       }
 
-      let resizeFrame = 0;
-      let lastRequestedHeight = 0;
+      function setStatus(message, kind = "info") {
+        status.textContent = message;
+        status.className = `status ${kind}`;
+      }
 
-      function requestUiResize() {
-        if (resizeFrame) {
-          return;
+      function requestResize() {
+        requestAnimationFrame(() => {
+          post({ type: "resize-ui", height: Math.ceil(app.getBoundingClientRect().height) });
+        });
+      }
+
+      function getWeight(id) {
+        return state.weights.find((weight) => weight.id === id);
+      }
+
+      function selectWeight(id, focus = false) {
+        const weight = getWeight(id);
+        if (!weight || !weight.available) return;
+        state.selectedWeight = id;
+        weightButtons.forEach((button) => {
+          const selected = button.dataset.weight === id;
+          button.setAttribute("aria-checked", String(selected));
+          button.tabIndex = selected ? 0 : -1;
+          if (selected && focus) button.focus();
+        });
+      }
+
+      function renderWeights() {
+        weightButtons.forEach((button) => {
+          const weight = getWeight(button.dataset.weight);
+          button.disabled = !weight || !weight.available;
+          button.title = weight
+            ? weight.available
+              ? `${weight.fontA.family} ${weight.fontA.style} + ${weight.fontB.family} ${weight.fontB.style}`
+              : `Missing: ${weight.missing.join(", ")}`
+            : "Checking fonts…";
+        });
+
+        const preferred = getWeight(state.selectedWeight);
+        const fallback = state.weights.find((weight) => weight.available);
+        if (!preferred || !preferred.available) state.selectedWeight = fallback?.id ?? DEFAULTS.weight;
+        selectWeight(state.selectedWeight);
+        applyButton.disabled = !fallback;
+
+        if (!fallback) {
+          const missing = state.weights.flatMap((weight) => weight.missing || []);
+          setStatus(`Required fonts are missing: ${Array.from(new Set(missing)).join(", ")}.`, "error");
         }
-        resizeFrame = requestAnimationFrame(() => {
-          resizeFrame = 0;
-          const height = Math.ceil(el("app").getBoundingClientRect().height);
-          if (height > 0 && Math.abs(height - lastRequestedHeight) >= 1) {
-            lastRequestedHeight = height;
-            post({ type: "resize-ui", height });
-          }
-        });
       }
 
-      function setStatus(message, kind) {
-        const status = el("status");
-        status.textContent = message || "";
-        status.title = message || "";
-        status.className = kind ? kind : "";
+      function availableWeightButtons() {
+        return weightButtons.filter((button) => !button.disabled);
       }
 
-      function toNumber(value, fallback) {
-        const parsed = Number(value);
-        return Number.isFinite(parsed) ? parsed : fallback;
-      }
-
-      function clamp(value, min, max) {
-        return Math.max(min, Math.min(max, value));
-      }
-
-      function formatNumber(value, maxDecimals) {
-        const rounded = Number(Number(value).toFixed(maxDecimals));
-        return Number.isFinite(rounded) ? String(rounded) : "0";
-      }
-
-      function roundLetterSpacing(value) {
-        return Number(clamp(toNumber(value, 0), -0.5, 1).toFixed(2));
-      }
-
-      function normalizeLetterSpacingField(input) {
-        input.value = formatNumber(roundLetterSpacing(input.value), 2);
-      }
-
-      function limitDecimalInput(input, maxDecimals) {
-        const rawValue = input.value.replace(",", ".");
-        const isNegative = rawValue.startsWith("-");
-        const unsignedValue = rawValue.replace(/-/g, "");
-        const decimalIndex = unsignedValue.indexOf(".");
-        const whole = (decimalIndex >= 0 ? unsignedValue.slice(0, decimalIndex) : unsignedValue).replace(/\D/g, "");
-        const fraction =
-          decimalIndex >= 0
-            ? unsignedValue
-                .slice(decimalIndex + 1)
-                .replace(/\D/g, "")
-                .slice(0, maxDecimals)
-            : "";
-        input.value = `${isNegative ? "-" : ""}${whole}${decimalIndex >= 0 ? `.${fraction}` : ""}`;
-      }
-
-      function createSpacingScrubber(button) {
-        const input = el(button.dataset.input);
-        const step = 0.01;
-        const pixelsPerStep = 4;
-        const dragThreshold = 2;
-        let pointerId = null;
-        let startX = 0;
-        let startValue = 0;
-        let startText = "0";
-        let dragged = false;
-
-        function setValue(value) {
-          input.value = formatNumber(roundLetterSpacing(value), 2);
-          input.dispatchEvent(new Event("input", { bubbles: true }));
-        }
-
-        function finish(options) {
-          if (pointerId == null) {
-            return;
-          }
-          const activePointerId = pointerId;
-          pointerId = null;
-          document.body.classList.remove("is-scrubbing");
-          window.removeEventListener("keydown", onWindowKeyDown);
-          window.removeEventListener("blur", onWindowBlur);
-          if (button.hasPointerCapture(activePointerId)) {
-            button.releasePointerCapture(activePointerId);
-          }
-          if (options && options.cancel) {
-            input.value = startText;
-            input.dispatchEvent(new Event("input", { bubbles: true }));
-            return;
-          }
-          if (dragged) {
-            normalizeLetterSpacingField(input);
-            input.dispatchEvent(new Event("change", { bubbles: true }));
-          } else {
-            input.focus();
-            input.select();
-          }
-        }
-
-        function onWindowKeyDown(event) {
-          if (event.key === "Escape") {
-            event.preventDefault();
-            finish({ cancel: true });
-          }
-        }
-
-        function onWindowBlur() {
-          finish({ cancel: false });
-        }
-
-        button.addEventListener("pointerdown", (event) => {
-          if (!event.isPrimary || event.button !== 0) {
-            return;
-          }
-          event.preventDefault();
-          pointerId = event.pointerId;
-          startX = event.clientX;
-          startValue = roundLetterSpacing(input.value);
-          startText = input.value;
-          dragged = false;
-          button.setPointerCapture(pointerId);
-          document.body.classList.add("is-scrubbing");
-          window.addEventListener("keydown", onWindowKeyDown);
-          window.addEventListener("blur", onWindowBlur);
-        });
-
-        button.addEventListener("pointermove", (event) => {
-          if (event.pointerId !== pointerId) {
-            return;
-          }
-          const delta = event.clientX - startX;
-          if (!dragged && Math.abs(delta) < dragThreshold) {
-            return;
-          }
-          dragged = true;
-          const steps = Math.round(delta / pixelsPerStep);
-          setValue(startValue + steps * step);
-        });
-
-        button.addEventListener("pointerup", (event) => {
-          if (event.pointerId === pointerId) {
-            finish({ cancel: false });
-          }
-        });
-
-        button.addEventListener("pointercancel", (event) => {
-          if (event.pointerId === pointerId) {
-            finish({ cancel: true });
-          }
-        });
-
-        button.addEventListener("lostpointercapture", () => {
-          if (pointerId != null) {
-            finish({ cancel: false });
-          }
-        });
-
+      weightButtons.forEach((button) => {
+        button.addEventListener("click", () => selectWeight(button.dataset.weight));
         button.addEventListener("keydown", (event) => {
-          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
-            return;
-          }
+          if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
           event.preventDefault();
-          const direction = event.key === "ArrowRight" ? 1 : -1;
-          const keyboardStep = event.shiftKey ? 0.1 : step;
-          setValue(roundLetterSpacing(input.value) + direction * keyboardStep);
-          normalizeLetterSpacingField(input);
-          input.dispatchEvent(new Event("change", { bubbles: true }));
+          const available = availableWeightButtons();
+          const current = available.indexOf(button);
+          const direction = event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 1;
+          const next = available[(current + direction + available.length) % available.length];
+          if (next) selectWeight(next.dataset.weight, true);
         });
+      });
+
+      function closeNumberMenu() {
+        if (!state.openMenu) return;
+        state.openMenu.menu.remove();
+        state.openMenu.trigger.setAttribute("aria-expanded", "false");
+        state.openMenu = null;
       }
 
-      function createEditableNumberDropdown(config) {
-        const input = el(config.inputId);
-        const trigger = el(config.triggerId);
-        const layer = el("numberMenuLayer");
-        let menu = null;
-        let values = [];
-        let activeIndex = -1;
-
-        function normalizedValue() {
-          return clamp(toNumber(input.value, config.fallback), config.min, config.max);
-        }
-
-        function commitValue(value) {
-          input.value = formatNumber(clamp(value, config.min, config.max), config.decimals);
-          input.dispatchEvent(new Event("input", { bubbles: true }));
-        }
-
-        function setExpanded(expanded) {
-          input.setAttribute("aria-expanded", String(expanded));
-          trigger.setAttribute("aria-expanded", String(expanded));
-          layer.setAttribute("aria-hidden", String(!expanded));
-        }
-
-        function closeMenu(options) {
-          if (!menu) {
-            return;
-          }
-          menu.remove();
-          menu = null;
-          values = [];
-          activeIndex = -1;
-          input.removeAttribute("aria-activedescendant");
-          setExpanded(false);
-          if (options && options.restoreFocus) {
-            input.focus();
-          }
-        }
-
-        function setActive(index) {
-          if (!menu || !values.length) {
-            return;
-          }
-          activeIndex = (index + values.length) % values.length;
-          menu.querySelectorAll(".number-option").forEach((option, optionIndex) => {
-            option.classList.toggle("active", optionIndex === activeIndex);
-          });
-          const activeOption = menu.querySelectorAll(".number-option")[activeIndex];
-          if (activeOption) {
-            input.setAttribute("aria-activedescendant", activeOption.id);
-            activeOption.scrollIntoView({ block: "nearest" });
-          }
-        }
-
-        function chooseActive() {
-          if (activeIndex < 0 || activeIndex >= values.length) {
-            return;
-          }
-          commitValue(values[activeIndex]);
-          closeMenu({ restoreFocus: true });
-        }
-
-        function renderOption(value, selected, index) {
-          const option = document.createElement("div");
-          option.id = `${config.menuId}-option-${index}`;
-          option.className = "number-option";
-          option.setAttribute("role", "option");
-          option.setAttribute("aria-selected", String(selected));
-          option.dataset.index = String(index);
-          option.innerHTML = `
-            <svg class="option-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-              <path d="m3 8 3 3 7-7"></path>
-            </svg>
-            <span>${formatNumber(value, config.decimals)}</span>
-          `;
-          return option;
-        }
-
-        function positionMenu() {
-          if (!menu) {
-            return;
-          }
-          const controlRect = input.parentElement.getBoundingClientRect();
-          const footerTop = document.querySelector(".footer-bar").getBoundingClientRect().top;
-          const width = Math.max(128, controlRect.width);
-          const left = clamp(controlRect.left, 8, window.innerWidth - width - 8);
-          const lowerBoundary = Math.min(footerTop, window.innerHeight - 8);
-          const spaceBelow = Math.max(0, lowerBoundary - controlRect.bottom - 4);
-          const spaceAbove = Math.max(0, controlRect.top - 8);
-          const naturalHeight = Math.min(264, menu.scrollHeight);
-          const openBelow = spaceBelow >= Math.min(144, naturalHeight) || spaceBelow >= spaceAbove;
-          const availableHeight = openBelow ? spaceBelow : spaceAbove;
-          if (availableHeight < 40) {
-            closeMenu();
-            return;
-          }
-          const height = Math.min(naturalHeight, availableHeight);
-          const rawTop = openBelow ? controlRect.bottom + 4 : controlRect.top - height - 4;
-          const top = clamp(rawTop, 8, Math.max(8, lowerBoundary - height));
-
-          menu.style.width = `${width}px`;
-          menu.style.maxHeight = `${height}px`;
-          menu.style.left = `${left}px`;
-          menu.style.top = `${top}px`;
+      function createNumberPicker(input, trigger, values) {
+        function choose(value) {
+          input.value = String(value);
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+          closeNumberMenu();
+          input.focus();
         }
 
         function openMenu() {
-          if (menu) {
-            return;
-          }
-
-          document.dispatchEvent(new CustomEvent("number-menu-opening", { detail: config.inputId }));
-          const current = normalizedValue();
-          const presetValues = config.values.filter((value) => value >= config.min && value <= config.max);
-          const hasCurrentPreset = presetValues.some((value) => Math.abs(value - current) < 0.0001);
-          values = hasCurrentPreset ? presetValues.slice() : [current].concat(presetValues);
-
-          menu = document.createElement("div");
-          menu.id = config.menuId;
+          if (state.openMenu?.trigger === trigger) return closeNumberMenu();
+          closeNumberMenu();
+          const menu = document.createElement("div");
           menu.className = "number-menu";
           menu.setAttribute("role", "listbox");
-          menu.setAttribute("aria-label", config.menuLabel);
-          values.forEach((value, index) => {
-            menu.appendChild(renderOption(value, Math.abs(value - current) < 0.0001, index));
-            if (!hasCurrentPreset && index === 0) {
-              const separator = document.createElement("div");
-              separator.className = "number-menu-separator";
-              separator.setAttribute("role", "separator");
-              menu.appendChild(separator);
-            }
+          const current = Number(input.value);
+
+          values.forEach((value) => {
+            const option = document.createElement("button");
+            const selected = value === current;
+            option.type = "button";
+            option.className = `number-option${selected ? " active" : ""}`;
+            option.setAttribute("role", "option");
+            option.setAttribute("aria-selected", String(selected));
+            option.innerHTML = `<span class="check">✓</span><span>${value}</span>`;
+            option.addEventListener("click", () => choose(value));
+            menu.appendChild(option);
           });
 
-          layer.appendChild(menu);
-          setExpanded(true);
-          positionMenu();
-          activeIndex = values.findIndex((value) => Math.abs(value - current) < 0.0001);
-          setActive(activeIndex >= 0 ? activeIndex : 0);
+          document.body.appendChild(menu);
+          const rect = input.getBoundingClientRect();
+          const below = window.innerHeight - rect.bottom - 8;
+          const above = rect.top - 8;
+          const openBelow = below >= 140 || below >= above;
+          menu.style.left = `${Math.round(rect.left)}px`;
+          menu.style.width = `${Math.round(rect.width)}px`;
+          menu.style.maxHeight = `${Math.max(112, Math.floor(openBelow ? below : above))}px`;
+          if (openBelow) menu.style.top = `${Math.round(rect.bottom + 4)}px`;
+          else menu.style.bottom = `${Math.round(window.innerHeight - rect.top + 4)}px`;
+
+          trigger.setAttribute("aria-expanded", "true");
+          state.openMenu = { menu, trigger };
+          menu.querySelector(".active")?.scrollIntoView({ block: "nearest" });
         }
 
-        trigger.addEventListener("click", () => {
-          input.focus();
-          if (menu) {
-            closeMenu({ restoreFocus: true });
-          } else {
-            openMenu();
-          }
+        trigger.addEventListener("click", (event) => {
+          event.stopPropagation();
+          openMenu();
         });
-
         input.addEventListener("keydown", (event) => {
-          if (event.key === "ArrowDown") {
+          if (event.key === "ArrowDown" && event.altKey) {
             event.preventDefault();
-            if (!menu) {
-              openMenu();
-            } else {
-              setActive(activeIndex + 1);
-            }
-            return;
-          }
-          if (event.key === "ArrowUp" && menu) {
-            event.preventDefault();
-            setActive(activeIndex - 1);
-            return;
-          }
-          if (event.key === "Enter" && menu) {
-            event.preventDefault();
-            chooseActive();
-            return;
-          }
-          if (event.key === "Escape" && menu) {
-            event.preventDefault();
-            closeMenu({ restoreFocus: true });
-            return;
-          }
-          if (event.key === "Tab") {
-            closeMenu();
-          }
+            openMenu();
+          } else if (event.key === "Escape") closeNumberMenu();
         });
-
-        input.addEventListener("input", () => {
-          limitDecimalInput(input, config.decimals);
-        });
-
-        input.addEventListener("blur", () => {
-          if (!menu) {
-            commitValue(normalizedValue());
-          }
-        });
-
-        layer.addEventListener("mousedown", (event) => {
-          if (!menu) {
-            return;
-          }
-          const option = event.target.closest(".number-option");
-          if (!option || !menu.contains(option)) {
-            return;
-          }
-          event.preventDefault();
-          activeIndex = Number(option.dataset.index);
-          chooseActive();
-        });
-
-        document.addEventListener("number-menu-opening", (event) => {
-          if (event.detail !== config.inputId) {
-            closeMenu();
-          }
-        });
-
-        document.addEventListener("mousedown", (event) => {
-          if (!menu || input.parentElement.contains(event.target) || menu.contains(event.target)) {
-            return;
-          }
-          closeMenu();
-        });
-
-        window.addEventListener("resize", positionMenu);
-        document.querySelector(".content").addEventListener("scroll", positionMenu, { passive: true });
-
-        return {
-          setValue(value) {
-            commitValue(value);
-          },
-          close: closeMenu
-        };
       }
 
-      function normalizeFontKey(value) {
-        return String(value || "")
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "");
+      createNumberPicker(fontSizeInput, document.getElementById("fontSizeTrigger"), FONT_SIZE_PRESETS);
+      createNumberPicker(sizeRatioInput, document.getElementById("sizeRatioTrigger"), SIZE_DIFFERENCE_PRESETS);
+      document.addEventListener("pointerdown", (event) => {
+        if (state.openMenu && !state.openMenu.menu.contains(event.target) && event.target !== state.openMenu.trigger) closeNumberMenu();
+      });
+
+      function readNumber(input, label, min, max) {
+        const value = Number(input.value);
+        if (!Number.isFinite(value)) throw new Error(`${label} must be a number.`);
+        if (value < min || value > max) throw new Error(`${label} must be between ${min} and ${max}.`);
+        return value;
       }
 
-      function createPresetId() {
-        return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-      }
-
-      function normalizeSettingsRecord(value) {
-        if (!value || typeof value !== "object") {
-          return {};
-        }
-
-        const normalized = { ...value, letterSpacingUnit: "em" };
-        const sourceUsesEm = value.letterSpacingUnit === "em";
-        [
-          "letterSpacingLatin",
-          "letterSpacingKanji",
-          "letterSpacingHiragana",
-          "letterSpacingKatakana"
-        ].forEach((key) => {
-          if (value[key] == null) {
-            return;
-          }
-          const numericValue = toNumber(value[key], 0);
-          const emValue = sourceUsesEm ? numericValue : numericValue / 100;
-          normalized[key] = roundLetterSpacing(emValue);
-        });
-        return normalized;
-      }
-
-      function normalizePresetRecord(value) {
-        if (!value || typeof value !== "object") {
-          return null;
-        }
-        if (typeof value.id !== "string" || typeof value.name !== "string") {
-          return null;
-        }
-        return {
-          id: value.id,
-          name: value.name,
-          builtIn: Boolean(value.builtIn),
-          settings: normalizeSettingsRecord(value.settings)
-        };
-      }
-
-      function mergeBuiltInPresets(presets) {
-        const builtInIds = new Set(BUILTIN_PRESETS.map((preset) => preset.id));
-        const customPresets = presets
-          .map(normalizePresetRecord)
-          .filter(Boolean)
-          .filter((preset) => !builtInIds.has(preset.id));
-        return BUILTIN_PRESETS.concat(customPresets);
-      }
-
-      function getPersistablePresets() {
-        return state.presets.filter((preset) => !preset.builtIn);
-      }
-
-      function exportPresetsAsJson() {
-        const presets = getPersistablePresets();
-        if (!presets.length) {
-          setStatus("No custom presets to export.", "error");
-          return;
-        }
-
-        const payload = {
-          format: "bm-font-remix-presets",
-          version: 1,
-          exportedAt: new Date().toISOString(),
-          presets
-        };
-        const date = payload.exportedAt.slice(0, 10);
-        const blob = new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `bm-font-remix-presets-${date}.json`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-        setStatus(
-          `Exported ${presets.length} custom preset${presets.length === 1 ? "" : "s"} as JSON.`,
-          "success"
-        );
-      }
-
-      function isBuiltInPresetSelected() {
-        const preset = getPresetById(state.selectedPresetId);
-        return Boolean(preset && preset.builtIn);
-      }
-
-      function supportsLocalStorageFallback() {
+      applyButton.addEventListener("click", () => {
         try {
-          const probe = "__codex_font_remixer_probe__";
-          window.localStorage.setItem(probe, "1");
-          window.localStorage.removeItem(probe);
-          return true;
+          const selected = getWeight(state.selectedWeight);
+          if (!selected?.available) throw new Error("Choose an available weight.");
+          const fontSize = readNumber(fontSizeInput, "Font size", 1, 420);
+          const sizeRatio = readNumber(sizeRatioInput, "Size difference", -30, 30);
+          applyButton.disabled = true;
+          setStatus("Applying font mix…");
+          post({ type: "apply", weight: state.selectedWeight, fontSize, sizeRatio });
         } catch (error) {
-          return false;
+          setStatus(error.message || "Check the entered values.", "error");
         }
-      }
-
-      function supportsIndexedDbStorage() {
-        return typeof indexedDB !== "undefined";
-      }
-
-      function supportsDeviceStorage() {
-        return supportsIndexedDbStorage() || supportsLocalStorageFallback();
-      }
-
-      function openDeviceDb() {
-        return new Promise((resolve, reject) => {
-          const request = indexedDB.open(DEVICE_DB_NAME, 1);
-          request.onerror = () => reject(request.error);
-          request.onupgradeneeded = () => {
-            const db = request.result;
-            if (!db.objectStoreNames.contains(DEVICE_DB_STORE)) {
-              db.createObjectStore(DEVICE_DB_STORE);
-            }
-          };
-          request.onsuccess = () => resolve(request.result);
-        });
-      }
-
-      async function readLocalStorageJson(key) {
-        if (!supportsLocalStorageFallback()) {
-          return null;
-        }
-
-        try {
-          const raw = window.localStorage.getItem(key);
-          return raw ? JSON.parse(raw) : null;
-        } catch (error) {
-          return null;
-        }
-      }
-
-      async function writeLocalStorageJson(key, value) {
-        if (!supportsLocalStorageFallback()) {
-          return false;
-        }
-
-        try {
-          window.localStorage.setItem(key, JSON.stringify(value));
-          return true;
-        } catch (error) {
-          return false;
-        }
-      }
-
-      async function readDeviceJson(key) {
-        if (supportsIndexedDbStorage()) {
-          try {
-            const db = await openDeviceDb();
-            const result = await new Promise((resolve, reject) => {
-              const transaction = db.transaction(DEVICE_DB_STORE, "readonly");
-              const store = transaction.objectStore(DEVICE_DB_STORE);
-              const request = store.get(key);
-              request.onerror = () => reject(request.error);
-              request.onsuccess = () => resolve(request.result ?? null);
-              transaction.oncomplete = () => db.close();
-            });
-            return result;
-          } catch (error) {
-          }
-        }
-
-        return await readLocalStorageJson(key);
-      }
-
-      async function writeDeviceJson(key, value) {
-        if (supportsIndexedDbStorage()) {
-          try {
-            const db = await openDeviceDb();
-            await new Promise((resolve, reject) => {
-              const transaction = db.transaction(DEVICE_DB_STORE, "readwrite");
-              const store = transaction.objectStore(DEVICE_DB_STORE);
-              const request = store.put(value, key);
-              request.onerror = () => reject(request.error);
-              transaction.oncomplete = () => {
-                db.close();
-                resolve();
-              };
-              transaction.onerror = () => reject(transaction.error);
-            });
-            return true;
-          } catch (error) {
-          }
-        }
-
-        return await writeLocalStorageJson(key, value);
-      }
-
-      async function probeDeviceStorage() {
-        const probeValue = { ok: true, at: Date.now() };
-        const wrote = await writeDeviceJson(DEVICE_STORAGE_PROBE_KEY, probeValue);
-        if (!wrote) {
-          return false;
-        }
-
-        const loaded = await readDeviceJson(DEVICE_STORAGE_PROBE_KEY);
-        return Boolean(loaded && loaded.ok === true);
-      }
-
-      async function loadLocalPresets() {
-        const parsed = await readDeviceJson(LOCAL_PRESETS_KEY);
-        if (!Array.isArray(parsed)) {
-          return mergeBuiltInPresets([]);
-        }
-        return mergeBuiltInPresets(parsed.map(normalizePresetRecord).filter(Boolean));
-      }
-
-      async function saveLocalPresets() {
-        return await writeDeviceJson(LOCAL_PRESETS_KEY, getPersistablePresets());
-      }
-
-      async function loadLocalSettings() {
-        const parsed = await readDeviceJson(LOCAL_SETTINGS_KEY);
-        return parsed && typeof parsed === "object" ? normalizeSettingsRecord(parsed) : null;
-      }
-
-      async function saveLocalSettings(settings) {
-        return await writeDeviceJson(LOCAL_SETTINGS_KEY, settings);
-      }
-
-      async function reloadDevicePresets(showStatus) {
-        state.presets = await loadLocalPresets();
-        renderPresetSelect();
-        updatePresetStorageUi();
-
-        if (showStatus) {
-          setStatus(
-            state.presets.length
-              ? `Reloaded ${state.presets.length} preset${state.presets.length === 1 ? "" : "s"} from this device.`
-              : "No saved device presets found.",
-            ""
-          );
-        }
-      }
-
-      function setPresetPersistence(mode) {
-        state.presetPersistence = mode;
-        updatePresetStorageUi();
-      }
-
-      function updatePresetStorageUi() {
-        const button = el("choosePresetFolderButton");
-        const status = el("presetFolderStatus");
-        const isDevice = state.presetPersistence === "device";
-        const isSession = state.presetPersistence === "session";
-
-        button.disabled = false;
-        button.classList.toggle("active", isDevice);
-
-        if (isDevice) {
-          status.textContent = "Saved on this device";
-          return;
-        }
-
-        if (isSession) {
-          status.textContent = "Saved for this session only";
-          return;
-        }
-
-        status.textContent = "Checking preset storage...";
-      }
-
-      function renderPresetSelect() {
-        const select = el("presetSelect");
-        select.innerHTML = "";
-
-        const placeholder = document.createElement("option");
-        placeholder.value = "";
-        placeholder.textContent = state.presets.length ? "Select a preset" : "No presets";
-        select.appendChild(placeholder);
-
-        state.presets.forEach((preset) => {
-          const option = document.createElement("option");
-          option.value = preset.id;
-          option.textContent = preset.name;
-          select.appendChild(option);
-        });
-
-        if (state.selectedPresetId && state.presets.some((preset) => preset.id === state.selectedPresetId)) {
-          select.value = state.selectedPresetId;
-        } else {
-          state.selectedPresetId = "";
-          select.value = "";
-        }
-
-        const hasSelection = Boolean(state.selectedPresetId);
-        el("presetActions").classList.toggle("hidden", !hasSelection);
-        const builtInSelected = isBuiltInPresetSelected();
-        el("renamePresetButton").disabled = builtInSelected;
-        el("overwritePresetButton").disabled = builtInSelected;
-        el("deletePresetButton").disabled = builtInSelected;
-      }
-
-      function getPresetById(id) {
-        return state.presets.find((preset) => preset.id === id) || null;
-      }
-
-      function loadSelectedPresetIntoForm() {
-        if (!state.selectedPresetId) {
-          setStatus("Select a preset first.", "error");
-          return false;
-        }
-
-        const preset = getPresetById(state.selectedPresetId);
-        if (!preset) {
-          setStatus("Preset not found.", "error");
-          return false;
-        }
-
-        applySettingsToForm(preset.settings);
-        setStatus(`Loaded preset "${preset.name}".`, "");
-        return true;
-      }
-
-      function collectSettings() {
-        return {
-          fontA: {
-            family: state.fontA.family,
-            style: state.fontA.style || "Regular"
-          },
-          fontB: {
-            family: state.fontB.family,
-            style: state.fontB.style || "Regular"
-          },
-          fontSize: toNumber(el("fontSize").value, 16),
-          sizeRatio: toNumber(el("sizeRatioField").value, 0),
-          letterSpacingUnit: "em",
-          letterSpacingLatin: roundLetterSpacing(el("spacingLatin").value),
-          letterSpacingKanji: roundLetterSpacing(el("spacingKanji").value),
-          letterSpacingHiragana: roundLetterSpacing(el("spacingHiragana").value),
-          letterSpacingKatakana: roundLetterSpacing(el("spacingKatakana").value)
-        };
-      }
-
-      function applySettingsToForm(settings) {
-        if (!settings) {
-          return;
-        }
-
-        settings = normalizeSettingsRecord(settings);
-
-        if (settings.fontA != null) {
-          fontPickerA.setValue(settings.fontA);
-        }
-        if (settings.fontB != null) {
-          fontPickerB.setValue(settings.fontB);
-        }
-        if (settings.fontSize != null) {
-          fontSizeDropdown.setValue(settings.fontSize);
-        }
-        if (settings.sizeRatio != null) {
-          sizeDifferenceDropdown.setValue(settings.sizeRatio);
-        }
-        if (settings.letterSpacingLatin != null) {
-          el("spacingLatin").value = formatNumber(settings.letterSpacingLatin, 2);
-        }
-        if (settings.letterSpacingKanji != null) {
-          el("spacingKanji").value = formatNumber(settings.letterSpacingKanji, 2);
-        }
-        if (settings.letterSpacingHiragana != null) {
-          el("spacingHiragana").value = formatNumber(settings.letterSpacingHiragana, 2);
-        }
-        if (settings.letterSpacingKatakana != null) {
-          el("spacingKatakana").value = formatNumber(settings.letterSpacingKatakana, 2);
-        }
-      }
-
-      function showInlineEditor(rootId, inputId, initialValue, onConfirm, opener) {
-        const root = el(rootId);
-        const input = el(inputId);
-        root.classList.remove("hidden");
-        input.value = initialValue || "";
-        input.focus();
-        input.select();
-
-        const confirmButton = root.querySelector("button[id$='Confirm']");
-        const cancelButton = root.querySelector("button[id$='Cancel']");
-
-        let isClosed = false;
-
-        const cleanup = () => {
-          input.removeEventListener("keydown", onKey);
-          confirmButton.removeEventListener("click", onConfirmClick);
-          cancelButton.removeEventListener("click", onCancelClick);
-        };
-
-        const close = () => {
-          if (isClosed) {
-            return;
-          }
-          isClosed = true;
-          cleanup();
-          root.classList.add("hidden");
-          if (opener) {
-            opener.focus();
-          }
-        };
-
-        const confirm = () => {
-          const value = input.value.trim();
-          close();
-          onConfirm(value);
-        };
-
-        const cancel = () => {
-          close();
-        };
-
-        const onKey = (event) => {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            confirm();
-          }
-          if (event.key === "Escape") {
-            event.preventDefault();
-            cancel();
-          }
-        };
-
-        const onConfirmClick = () => {
-          confirm();
-        };
-
-        const onCancelClick = () => {
-          cancel();
-        };
-
-        input.addEventListener("keydown", onKey);
-        confirmButton.addEventListener("click", onConfirmClick, { once: true });
-        cancelButton.addEventListener("click", onCancelClick, { once: true });
-      }
-
-      function postSessionPresetMessage(message, statusMessage) {
-        post(message);
-        if (statusMessage) {
-          setStatus(statusMessage, "");
-        }
-      }
-
-      async function tryPersistPresetsOnDevice() {
-        if (state.presetPersistence !== "device") {
-          return false;
-        }
-
-        if (await saveLocalPresets()) {
-          return true;
-        }
-
-        setPresetPersistence("session");
-        return false;
-      }
-
-      async function savePresetByName(name) {
-        const settings = collectSettings();
-
-        if (state.presetPersistence === "session") {
-          postSessionPresetMessage(
-            { type: "save-preset", name, settings },
-            `Preset "${name}" saved for this session only.`
-          );
-          return;
-        }
-
-        state.presets.push({
-          id: createPresetId(),
-          name,
-          settings
-        });
-
-        if (!(await tryPersistPresetsOnDevice())) {
-          state.presets.pop();
-          postSessionPresetMessage(
-            { type: "save-preset", name, settings },
-            `Could not save on this device. Preset "${name}" was saved for this session only.`
-          );
-          return;
-        }
-
-        state.selectedPresetId = state.presets[state.presets.length - 1].id;
-        renderPresetSelect();
-        setStatus(`Preset "${name}" saved on this device.`, "success");
-      }
-
-      async function renameSelectedPreset(newName) {
-        const preset = getPresetById(state.selectedPresetId);
-        if (!preset) {
-          setStatus("Preset not found.", "error");
-          return;
-        }
-
-        if (state.presetPersistence === "session") {
-          postSessionPresetMessage(
-            { type: "update-preset", id: state.selectedPresetId, name: newName },
-            `Preset "${newName}" renamed for this session only.`
-          );
-          return;
-        }
-
-        const previousName = preset.name;
-        preset.name = newName;
-
-        if (!(await tryPersistPresetsOnDevice())) {
-          preset.name = previousName;
-          postSessionPresetMessage(
-            { type: "update-preset", id: state.selectedPresetId, name: newName },
-            `Could not rename on this device. Preset "${newName}" was updated for this session only.`
-          );
-          return;
-        }
-
-        renderPresetSelect();
-        setStatus(`Preset "${newName}" renamed on this device.`, "success");
-      }
-
-      async function overwriteSelectedPreset() {
-        const preset = getPresetById(state.selectedPresetId);
-        if (!preset) {
-          setStatus("Preset not found.", "error");
-          return;
-        }
-
-        const settings = collectSettings();
-
-        if (state.presetPersistence === "session") {
-          postSessionPresetMessage(
-            { type: "update-preset", id: state.selectedPresetId, settings },
-            `Preset "${preset.name}" overwritten for this session only.`
-          );
-          return;
-        }
-
-        const previousSettings = preset.settings;
-        preset.settings = settings;
-
-        if (!(await tryPersistPresetsOnDevice())) {
-          preset.settings = previousSettings;
-          postSessionPresetMessage(
-            { type: "update-preset", id: state.selectedPresetId, settings },
-            `Could not update on this device. Preset "${preset.name}" was overwritten for this session only.`
-          );
-          return;
-        }
-
-        setStatus(`Preset "${preset.name}" overwritten on this device.`, "success");
-      }
-
-      async function deleteSelectedPreset() {
-        const next = state.presets.filter((preset) => preset.id !== state.selectedPresetId);
-        if (next.length === state.presets.length) {
-          setStatus("Preset not found.", "error");
-          return;
-        }
-
-        if (state.presetPersistence === "session") {
-          post({ type: "delete-preset", id: state.selectedPresetId });
-          state.selectedPresetId = "";
-          renderPresetSelect();
-          setStatus("Preset deleted for this session only.", "");
-          return;
-        }
-
-        const previousPresets = state.presets.slice();
-        state.presets = next;
-
-        if (!(await tryPersistPresetsOnDevice())) {
-          state.presets = previousPresets;
-          post({ type: "delete-preset", id: state.selectedPresetId });
-          state.selectedPresetId = "";
-          renderPresetSelect();
-          setStatus("Could not delete from device storage. Preset was deleted for this session only.", "");
-          return;
-        }
-
-        state.selectedPresetId = "";
-        renderPresetSelect();
-        setStatus("Preset deleted from this device.", "success");
-      }
-
-      function createFontPicker(searchId, resultsId, styleId, onChange) {
-        const searchInput = el(searchId);
-        const results = el(resultsId);
-        const styleSelect = el(styleId);
-        let debounceHandle = null;
-        let selectedFamily = "";
-
-        function findFamily(name) {
-          const exact = state.fonts.find((font) => font.family === name);
-          if (exact) {
-            return exact;
-          }
-
-          const normalizedName = normalizeFontKey(name);
-          return state.fonts.find((font) => normalizeFontKey(font.family) === normalizedName) || null;
-        }
-
-        function chooseStyle(styles, preferredStyle) {
-          if (!styles.length) {
-            return "Regular";
-          }
-          if (preferredStyle && styles.includes(preferredStyle)) {
-            return preferredStyle;
-          }
-          if (styles.includes("Regular")) {
-            return "Regular";
-          }
-          return styles[0];
-        }
-
-        function renderStyles(family, preferredStyle) {
-          const record = findFamily(family);
-          const styles = record ? record.styles : [];
-          styleSelect.innerHTML = "";
-
-          styles.forEach((style) => {
-            const option = document.createElement("option");
-            option.value = style;
-            option.textContent = style;
-            styleSelect.appendChild(option);
-          });
-
-          const chosen = chooseStyle(styles, preferredStyle);
-          if (styles.length) {
-            styleSelect.value = chosen;
-          }
-          return chosen;
-        }
-
-        function renderResults(items) {
-          results.innerHTML = "";
-          if (!items.length) {
-            results.classList.add("hidden");
-            return;
-          }
-
-          items.slice(0, 100).forEach((item) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "font-item";
-            button.dataset.family = item.family;
-            button.textContent = item.family;
-            results.appendChild(button);
-          });
-
-          results.classList.remove("hidden");
-        }
-
-        function applyFamilySelection(family, preferredStyle) {
-          const record = findFamily(family);
-          const resolvedFamily = record ? record.family : family;
-          selectedFamily = resolvedFamily;
-          searchInput.value = resolvedFamily;
-          const selectedStyle = renderStyles(resolvedFamily, preferredStyle);
-          onChange({ family: resolvedFamily, style: selectedStyle || "Regular" });
-          results.classList.add("hidden");
-        }
-
-        function filterAndRender(query) {
-          if (!state.fonts.length) {
-            return;
-          }
-          const normalized = query.trim().toLowerCase();
-          const list = normalized
-            ? state.fonts.filter((font) => font.family.toLowerCase().includes(normalized))
-            : state.fonts;
-          renderResults(list);
-        }
-
-        searchInput.addEventListener("focus", () => {
-          if (!state.fonts.length) {
-            return;
-          }
-          renderResults(state.fonts);
-        });
-
-        searchInput.addEventListener("input", () => {
-          if (!state.fonts.length) {
-            return;
-          }
-          if (debounceHandle) {
-            clearTimeout(debounceHandle);
-          }
-          debounceHandle = setTimeout(() => {
-            filterAndRender(searchInput.value);
-          }, 150);
-        });
-
-        searchInput.addEventListener("blur", () => {
-          setTimeout(() => {
-            results.classList.add("hidden");
-          }, 150);
-        });
-
-        results.addEventListener("mousedown", (event) => {
-          const item = event.target.closest(".font-item");
-          if (!item) {
-            return;
-          }
-          event.preventDefault();
-          const family = item.dataset.family;
-          if (!family) {
-            return;
-          }
-          applyFamilySelection(family);
-        });
-
-        styleSelect.addEventListener("change", () => {
-          if (!selectedFamily) {
-            return;
-          }
-          onChange({ family: selectedFamily, style: styleSelect.value || "Regular" });
-        });
-
-        return {
-          setValue(font) {
-            const family = font && typeof font.family === "string" ? font.family : "";
-            if (!family) {
-              return;
-            }
-            applyFamilySelection(family, font.style);
-          },
-          setDefault() {
-            if (!state.fonts.length) {
-              return;
-            }
-            applyFamilySelection(state.fonts[0].family, "Regular");
-          }
-        };
-      }
-
-      function bindPresetControls() {
-        el("presetSelect").addEventListener("change", (event) => {
-          state.selectedPresetId = event.target.value;
-          renderPresetSelect();
-          if (state.selectedPresetId) {
-            loadSelectedPresetIntoForm();
-          }
-        });
-
-        el("choosePresetFolderButton").addEventListener("click", async () => {
-          if (state.presetPersistence === "device") {
-            await reloadDevicePresets(true);
-            return;
-          }
-          setStatus("This runtime is using session-only presets right now.", "");
-        });
-
-        el("exportPresetsButton").addEventListener("click", exportPresetsAsJson);
-
-        el("savePresetButton").addEventListener("click", (event) => {
-          showInlineEditor("savePresetInline", "savePresetName", "", async (name) => {
-            if (!name) {
-              setStatus("Preset name is required.", "error");
-              return;
-            }
-            await savePresetByName(name);
-          }, event.currentTarget);
-        });
-
-        el("renamePresetButton").addEventListener("click", (event) => {
-          if (!state.selectedPresetId) {
-            setStatus("Select a preset first.", "error");
-            return;
-          }
-          if (isBuiltInPresetSelected()) {
-            setStatus("Built-in presets cannot be renamed.", "");
-            return;
-          }
-          const preset = getPresetById(state.selectedPresetId);
-          const currentName = preset ? preset.name : "";
-          showInlineEditor("renamePresetInline", "renamePresetName", currentName, async (newName) => {
-            if (!newName) {
-              setStatus("Preset name is required.", "error");
-              return;
-            }
-            await renameSelectedPreset(newName);
-          }, event.currentTarget);
-        });
-
-        el("overwritePresetButton").addEventListener("click", async () => {
-          if (!state.selectedPresetId) {
-            setStatus("Select a preset first.", "error");
-            return;
-          }
-          if (isBuiltInPresetSelected()) {
-            setStatus("Built-in presets cannot be overwritten. Save a new preset instead.", "");
-            return;
-          }
-          await overwriteSelectedPreset();
-        });
-
-        el("deletePresetButton").addEventListener("click", async () => {
-          if (!state.selectedPresetId) {
-            setStatus("Select a preset first.", "error");
-            return;
-          }
-          if (isBuiltInPresetSelected()) {
-            setStatus("Built-in presets cannot be deleted.", "");
-            return;
-          }
-          await deleteSelectedPreset();
-        });
-      }
-
-      function bindGeneralControls() {
-        ["spacingLatin", "spacingKanji", "spacingHiragana", "spacingKatakana"].forEach((id) => {
-          const input = el(id);
-          input.addEventListener("input", () => limitDecimalInput(input, 2));
-          input.addEventListener("blur", () => normalizeLetterSpacingField(input));
-        });
-        document.querySelectorAll(".spacing-scrubber").forEach(createSpacingScrubber);
-
-        el("extractButton").addEventListener("click", () => {
-          post({ type: "extract" });
-          setStatus("Extracting settings from the selected text node...", "");
-        });
-
-        el("applyButton").addEventListener("click", () => {
-          if (!state.fontA.family || !state.fontB.family) {
-            setStatus("Please select both Latin and Japanese fonts.", "error");
-            return;
-          }
-
-          ["spacingLatin", "spacingKanji", "spacingHiragana", "spacingKatakana"].forEach((id) => {
-            normalizeLetterSpacingField(el(id));
-          });
-          fontSizeDropdown.close();
-          sizeDifferenceDropdown.close();
-          const settings = collectSettings();
-          void saveLocalSettings(settings);
-
-          post({
-            type: "apply",
-            settings
-          });
-          setStatus("Applying...", "");
-        });
-      }
-
-      const fontPickerA = createFontPicker("fontASearch", "fontAResults", "fontAStyle", (font) => {
-        state.fontA = font;
-      });
-      const fontPickerB = createFontPicker("fontBSearch", "fontBResults", "fontBStyle", (font) => {
-        state.fontB = font;
-      });
-      const fontSizeDropdown = createEditableNumberDropdown({
-        inputId: "fontSize",
-        triggerId: "fontSizeTrigger",
-        menuId: "fontSizeMenu",
-        menuLabel: "Font size presets",
-        values: FONT_SIZE_PRESETS,
-        min: 1,
-        max: 420,
-        fallback: 16,
-        decimals: 2
-      });
-      const sizeDifferenceDropdown = createEditableNumberDropdown({
-        inputId: "sizeRatioField",
-        triggerId: "sizeDifferenceTrigger",
-        menuId: "sizeDifferenceMenu",
-        menuLabel: "Size difference presets",
-        values: SIZE_DIFFERENCE_PRESETS,
-        min: -30,
-        max: 30,
-        fallback: 0,
-        decimals: 2
       });
 
-      bindPresetControls();
-      bindGeneralControls();
-      updatePresetStorageUi();
-
-      const uiResizeObserver = new ResizeObserver(requestUiResize);
-      uiResizeObserver.observe(el("app"));
-      window.addEventListener("load", requestUiResize, { once: true });
-      requestUiResize();
-
-      window.onmessage = async (event) => {
-        const message = event.data.pluginMessage;
-        if (!message || !message.type) {
-          return;
-        }
-
+      window.onmessage = (event) => {
+        const message = event.data?.pluginMessage;
+        if (!message) return;
         if (message.type === "init") {
-          state.fonts = Array.isArray(message.fonts) ? message.fonts : [];
-          const canPersistOnDevice = await probeDeviceStorage();
-          setPresetPersistence(canPersistOnDevice ? "device" : "session");
-
-          const localPresets = canPersistOnDevice ? await loadLocalPresets() : [];
-          const backendPresets = Array.isArray(message.presets) ? message.presets : [];
-          if (localPresets.length) {
-            state.presets = localPresets;
-          } else {
-            state.presets = mergeBuiltInPresets(backendPresets);
-            if (canPersistOnDevice && state.presets.length) {
-              void saveLocalPresets();
-            }
-          }
-          renderPresetSelect();
-
-          if (message.savedSettings) {
-            applySettingsToForm(message.savedSettings);
-          } else {
-            const localSettings = canPersistOnDevice ? await loadLocalSettings() : null;
-            if (localSettings) {
-              applySettingsToForm(localSettings);
-            } else if (state.fonts.length) {
-              fontPickerA.setDefault();
-              fontPickerB.setDefault();
-            }
-          }
-
-          if (message.selectionInfo && message.selectionInfo.message) {
-            setStatus(message.selectionInfo.message, "");
-          }
-          return;
-        }
-
-        if (message.type === "presets") {
-          if (state.presetPersistence === "session") {
-            state.presets = mergeBuiltInPresets(Array.isArray(message.presets) ? message.presets : []);
-            renderPresetSelect();
-            return;
-          }
-
-          if (!state.presets.length && Array.isArray(message.presets) && message.presets.length) {
-            state.presets = mergeBuiltInPresets(message.presets);
-            void saveLocalPresets();
-            renderPresetSelect();
-          }
-          return;
-        }
-
-        if (message.type === "selection-info") {
-          if (message.message) {
-            setStatus(message.message, "");
-          }
-          return;
-        }
-
-        if (message.type === "extracted-settings") {
-          if (message.settings) {
-            applySettingsToForm(message.settings);
-            void saveLocalSettings(collectSettings());
-          }
-          return;
-        }
-
-        if (message.type === "status") {
-          setStatus(message.message || "", message.kind || "");
+          state.weights = Array.isArray(message.weights) ? message.weights : [];
+          state.selectedWeight = message.savedSettings?.weight || DEFAULTS.weight;
+          fontSizeInput.value = String(message.savedSettings?.fontSize ?? DEFAULTS.fontSize);
+          sizeRatioInput.value = String(message.savedSettings?.sizeRatio ?? DEFAULTS.sizeRatio);
+          renderWeights();
+          if (state.weights.some((weight) => weight.available)) setStatus(message.selectionInfo?.message || "Choose one text node.");
+          requestResize();
+        } else if (message.type === "status") {
+          setStatus(message.message, message.kind);
+          applyButton.disabled = !state.weights.some((weight) => weight.available);
+        } else if (message.type === "selection-info") {
+          setStatus(message.message || "Choose one text node.");
         }
       };
 
+      if (typeof ResizeObserver !== "undefined") new ResizeObserver(requestResize).observe(app);
       post({ type: "init" });
+      requestResize();
     </script>
   </body>
 </html>
