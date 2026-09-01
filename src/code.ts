@@ -71,8 +71,8 @@ type PluginMessage =
       type: "close";
     };
 
-const STORAGE_SETTINGS_KEY = "font-remixer.settings";
-const STORAGE_PRESETS_KEY = "font-remixer.presets";
+const STORAGE_SETTINGS_KEY = "bm-font-remix.settings";
+const STORAGE_PRESETS_KEY = "bm-font-remix.presets";
 const sessionStorageFallback = new Map<string, unknown>();
 
 const DEFAULT_SETTINGS: SavedSettings = {

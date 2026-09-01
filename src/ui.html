@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FontRemixer</title>
+    <title>BM FontRemix</title>
     <style>
       :root {
         color-scheme: dark;
@@ -747,11 +747,11 @@
     </div>
 
     <script>
-      const LOCAL_PRESETS_KEY = "codex-font-remixer.presets";
-      const LOCAL_SETTINGS_KEY = "codex-font-remixer.settings";
-      const DEVICE_DB_NAME = "codex-font-remixer";
+      const LOCAL_PRESETS_KEY = "bm-font-remix.presets";
+      const LOCAL_SETTINGS_KEY = "bm-font-remix.settings";
+      const DEVICE_DB_NAME = "bm-font-remix";
       const DEVICE_DB_STORE = "storage";
-      const DEVICE_STORAGE_PROBE_KEY = "__codex-font-remixer-probe__";
+      const DEVICE_STORAGE_PROBE_KEY = "__bm-font-remix-probe__";
       const FONT_SIZE_PRESETS = [10, 11, 12, 13, 14, 15, 16, 20, 24, 32, 36, 40, 48, 64, 72, 96, 128];
       const SIZE_DIFFERENCE_PRESETS = [-30, -20, -15, -10, -8, -5, 0, 5, 8, 10, 15, 20, 30];
       const BUILTIN_PRESETS = [
@@ -1354,7 +1354,7 @@
         }
 
         const payload = {
-          format: "fontremixer-presets",
+          format: "bm-font-remix-presets",
           version: 1,
           exportedAt: new Date().toISOString(),
           presets
@@ -1364,7 +1364,7 @@
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `fontremixer-presets-${date}.json`;
+        link.download = `bm-font-remix-presets-${date}.json`;
         document.body.appendChild(link);
         link.click();
         link.remove();
