@@ -49,6 +49,11 @@ type ResolvedWeight = {
   missing: string[];
 };
 
+type FontAvailability = {
+  missingFamilies: string[];
+  missingStyles: string[];
+};
+
 type PluginMessage =
   | { type: "init" }
   | { type: "apply"; weight?: unknown; fontSize?: unknown; sizeRatio?: unknown }
@@ -219,13 +224,30 @@ function resolveWeightProfile(profile: WeightProfile, fonts: Font[]): ResolvedWe
   const fontA = findFont(fonts, LATIN_FAMILY, profile.latinStyles);
   const fontB = findFont(fonts, JAPANESE_FAMILY, profile.japaneseStyles);
   const missing: string[] = [];
-  if (!fontA) missing.push(`${LATIN_FAMILY} ${profile.latinStyles.join(" or ")}`);
-  if (!fontB) missing.push(`${JAPANESE_FAMILY} ${profile.japaneseStyles.join(" or ")}`);
+  if (!fontA) missing.push(`${LATIN_FAMILY} ${profile.latinStyles[0]}`);
+  if (!fontB) missing.push(`${JAPANESE_FAMILY} ${profile.japaneseStyles[0]}`);
   return { id: profile.id, label: profile.label, available: Boolean(fontA && fontB), fontA, fontB, missing };
 }
 
 function resolveAllWeights(fonts: Font[]): ResolvedWeight[] {
   return WEIGHT_PROFILES.map((profile) => resolveWeightProfile(profile, fonts));
+}
+
+function hasFontFamily(fonts: Font[], family: string): boolean {
+  const normalizedFamily = normalizeName(family);
+  return fonts.some((font) => normalizeName(font.fontName.family) === normalizedFamily);
+}
+
+function getFontAvailability(fonts: Font[], weights: ResolvedWeight[]): FontAvailability {
+  const missingFamilies = [LATIN_FAMILY, JAPANESE_FAMILY].filter((family) => !hasFontFamily(fonts, family));
+  const missingStyles: string[] = [];
+  for (const weight of weights) {
+    for (const fontName of weight.missing) {
+      const belongsToMissingFamily = missingFamilies.some((family) => fontName.startsWith(family));
+      if (!belongsToMissingFamily && !missingStyles.includes(fontName)) missingStyles.push(fontName);
+    }
+  }
+  return { missingFamilies, missingStyles };
 }
 
 function isWeightId(value: unknown): value is WeightId {
@@ -383,7 +405,14 @@ async function sendInitPayload(): Promise<void> {
   ]);
   const fonts = fontsResult.ok ? fontsResult.value : [];
   const savedSettings = savedSettingsResult.ok ? savedSettingsResult.value : DEFAULT_USER_SETTINGS;
-  postMessage({ type: "init", weights: resolveAllWeights(fonts), savedSettings, selectionInfo: getSelectionInfo() });
+  const weights = resolveAllWeights(fonts);
+  postMessage({
+    type: "init",
+    weights,
+    fontAvailability: getFontAvailability(fonts, weights),
+    savedSettings,
+    selectionInfo: getSelectionInfo()
+  });
   if (!fontsResult.ok) postStatus("warning", "Could not check the required fonts. Try reopening the plugin.");
   else if (!savedSettingsResult.ok) postStatus("warning", "Saved sizing settings could not be restored.");
 }

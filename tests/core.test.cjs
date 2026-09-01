@@ -12,7 +12,8 @@ const {
   classifyJapaneseSubtype,
   createSettingsForWeight,
   emToFigmaPercent,
-  figmaPercentToEm
+  figmaPercentToEm,
+  getFontAvailability
 } = require("../dist/core.js");
 
 test("BM defaults use the fixed internal families, Regular pairing, and -5% size difference", () => {
@@ -45,6 +46,39 @@ test("weight profiles map to the four approved BM font pairings", () => {
   assert.equal(extraBold.fontSize, 64);
   assert.equal(extraBold.sizeRatio, -8);
   assert.equal(extraBold.letterSpacingKanji, 0.04);
+});
+
+test("font availability distinguishes missing families from missing styles", () => {
+  assert.deepEqual(getFontAvailability([]), {
+    missingFamilies: [LATIN_FAMILY, JAPANESE_FAMILY],
+    missingStyles: []
+  });
+
+  const partial = getFontAvailability([
+    { family: LATIN_FAMILY, style: "Regular" },
+    { family: JAPANESE_FAMILY, style: "M" }
+  ]);
+  assert.deepEqual(partial.missingFamilies, []);
+  assert.deepEqual(partial.missingStyles, [
+    `${LATIN_FAMILY} SemiBold`,
+    `${LATIN_FAMILY} Bold`,
+    `${LATIN_FAMILY} ExtraBold`,
+    `${JAPANESE_FAMILY} DB`,
+    `${JAPANESE_FAMILY} B`,
+    `${JAPANESE_FAMILY} EB`
+  ]);
+
+  const complete = getFontAvailability([
+    { family: LATIN_FAMILY, style: "Regular" },
+    { family: LATIN_FAMILY, style: "Semibold" },
+    { family: LATIN_FAMILY, style: "Bold" },
+    { family: LATIN_FAMILY, style: "Extrabold" },
+    { family: JAPANESE_FAMILY, style: "M" },
+    { family: JAPANESE_FAMILY, style: "DB" },
+    { family: JAPANESE_FAMILY, style: "B" },
+    { family: JAPANESE_FAMILY, style: "EB" }
+  ]);
+  assert.deepEqual(complete, { missingFamilies: [], missingStyles: [] });
 });
 
 test("classifyCharacter separates latin and japanese ranges", () => {

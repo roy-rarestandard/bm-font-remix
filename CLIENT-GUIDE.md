@@ -51,6 +51,8 @@ BM FontMixer automatically uses these letter-spacing values:
 
 The exact font style for that pairing is not installed. Install the missing BM Duplet DSP or FOT-NewCezanne ProN style, restart Figma, and try again.
 
+BM FontMixer also shows a message below the weight buttons naming any missing font family or style.
+
 ### “No layer selected” appears
 
 Select exactly one text layer, then click **Apply** again.

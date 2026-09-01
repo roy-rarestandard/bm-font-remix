@@ -20,6 +20,7 @@
         --apply: #ff5b35;
         --apply-hover: #ff704f;
         --error: #ff806c;
+        --warning: #f3ce7d;
         --success: #65dca9;
       }
 
@@ -118,6 +119,27 @@
 
       .weight-button[aria-checked="true"]:hover:not(:disabled) {
         background: #bdc8f4;
+      }
+
+      .font-alert {
+        margin-top: 8px;
+        padding: 8px 9px;
+        border: 1px solid rgba(243, 206, 125, 0.3);
+        border-radius: 7px;
+        background: rgba(243, 206, 125, 0.08);
+        color: var(--warning);
+        font-size: 10px;
+        line-height: 1.4;
+      }
+
+      .font-alert.error {
+        border-color: rgba(255, 128, 108, 0.32);
+        background: rgba(255, 128, 108, 0.08);
+        color: var(--error);
+      }
+
+      .font-alert[hidden] {
+        display: none;
       }
 
       .size-grid {
@@ -283,6 +305,7 @@
             <button class="weight-button" type="button" role="radio" data-weight="bold" aria-checked="false" tabindex="-1">Bold</button>
             <button class="weight-button" type="button" role="radio" data-weight="extrabold" aria-checked="false" tabindex="-1">ExtraBold</button>
           </div>
+          <div id="fontAlert" class="font-alert" role="status" aria-live="polite" hidden></div>
         </section>
 
         <section class="section">
@@ -325,6 +348,7 @@
 
       const app = document.getElementById("app");
       const status = document.getElementById("status");
+      const fontAlert = document.getElementById("fontAlert");
       const applyButton = document.getElementById("applyButton");
       const weightButtons = Array.from(document.querySelectorAll(".weight-button"));
       const fontSizeInput = document.getElementById("fontSizeInput");
@@ -378,9 +402,27 @@
         selectWeight(state.selectedWeight);
         applyButton.disabled = !fallback;
 
-        if (!fallback) {
-          const missing = state.weights.flatMap((weight) => weight.missing || []);
-          setStatus(`Required fonts are missing: ${Array.from(new Set(missing)).join(", ")}.`, "error");
+      }
+
+      function formatList(items) {
+        if (items.length < 2) return items[0] || "";
+        if (items.length === 2) return `${items[0]} and ${items[1]}`;
+        return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
+      }
+
+      function renderFontAvailability(availability) {
+        const missingFamilies = availability?.missingFamilies || [];
+        const missingStyles = availability?.missingStyles || [];
+        fontAlert.hidden = !missingFamilies.length && !missingStyles.length;
+        fontAlert.className = `font-alert${missingFamilies.length ? " error" : ""}`;
+
+        if (missingFamilies.length) {
+          const noun = missingFamilies.length === 1 ? "font" : "fonts";
+          fontAlert.textContent = `Missing ${noun}: ${formatList(missingFamilies)}. Install and restart Figma.`;
+        } else if (missingStyles.length) {
+          fontAlert.textContent = `Some weights are unavailable. Install: ${formatList(missingStyles)}.`;
+        } else {
+          fontAlert.textContent = "";
         }
       }
 
@@ -500,7 +542,12 @@
           fontSizeInput.value = String(message.savedSettings?.fontSize ?? DEFAULTS.fontSize);
           sizeRatioInput.value = String(message.savedSettings?.sizeRatio ?? DEFAULTS.sizeRatio);
           renderWeights();
-          if (state.weights.some((weight) => weight.available)) setStatus(message.selectionInfo?.message || "Choose one text node.");
+          renderFontAvailability(message.fontAvailability);
+          if (state.weights.some((weight) => weight.available)) {
+            setStatus(message.selectionInfo?.message || "Choose one text node.");
+          } else {
+            setStatus("Install the missing fonts to continue.", "error");
+          }
           requestResize();
         } else if (message.type === "status") {
           setStatus(message.message, message.kind);

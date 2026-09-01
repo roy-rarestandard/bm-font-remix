@@ -29,6 +29,10 @@ export type WeightProfile = {
   latinStyle: string;
   japaneseStyle: string;
 };
+export type FontAvailability = {
+  missingFamilies: string[];
+  missingStyles: string[];
+};
 
 export const LATIN_FAMILY = "BM Duplet DSP";
 export const JAPANESE_FAMILY = "FOT-NewCezanne ProN";
@@ -64,6 +68,43 @@ export function createSettingsForWeight(
     fontSize,
     sizeRatio
   };
+}
+
+function normalizeFontName(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+function hasFont(fonts: FontDescriptor[], family: string, styles?: readonly string[]): boolean {
+  const normalizedFamily = normalizeFontName(family);
+  const normalizedStyles = styles?.map(normalizeFontName);
+  return fonts.some(
+    (font) =>
+      normalizeFontName(font.family) === normalizedFamily &&
+      (!normalizedStyles || normalizedStyles.includes(normalizeFontName(font.style)))
+  );
+}
+
+export function getFontAvailability(fonts: FontDescriptor[]): FontAvailability {
+  const missingFamilies = [LATIN_FAMILY, JAPANESE_FAMILY].filter((family) => !hasFont(fonts, family));
+  const missingStyles: string[] = [];
+  const requiredStyles = [
+    { family: LATIN_FAMILY, styles: ["Regular"], label: `${LATIN_FAMILY} Regular` },
+    { family: LATIN_FAMILY, styles: ["SemiBold", "Semibold"], label: `${LATIN_FAMILY} SemiBold` },
+    { family: LATIN_FAMILY, styles: ["Bold"], label: `${LATIN_FAMILY} Bold` },
+    { family: LATIN_FAMILY, styles: ["ExtraBold", "Extrabold"], label: `${LATIN_FAMILY} ExtraBold` },
+    { family: JAPANESE_FAMILY, styles: ["M"], label: `${JAPANESE_FAMILY} M` },
+    { family: JAPANESE_FAMILY, styles: ["DB"], label: `${JAPANESE_FAMILY} DB` },
+    { family: JAPANESE_FAMILY, styles: ["B"], label: `${JAPANESE_FAMILY} B` },
+    { family: JAPANESE_FAMILY, styles: ["EB"], label: `${JAPANESE_FAMILY} EB` }
+  ];
+
+  for (const requirement of requiredStyles) {
+    if (!missingFamilies.includes(requirement.family) && !hasFont(fonts, requirement.family, requirement.styles)) {
+      missingStyles.push(requirement.label);
+    }
+  }
+
+  return { missingFamilies, missingStyles };
 }
 
 export function emToFigmaPercent(value: number): number {
